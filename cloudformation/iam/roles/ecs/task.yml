@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: 'sts:AssumeRole'
+Outputs:
+  Role:
+    Description: Role
+    Value: !Ref TaskRole
+  RoleArn:
+    Description: Role ARN
+    Value: !GetAtt TaskRole.Arn

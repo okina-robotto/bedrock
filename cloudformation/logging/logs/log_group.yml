@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  LogGroupName:
+    Description: CloudWatch logs log group name.
+    Type: String
+    AllowedPattern: '[\.\-_/#A-Za-z0-9]+'
+    MinLength: 1
+    MaxLength: 512
+Resources:
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref LogGroupName
+Outputs:
+  LogGroup:
+    Description: CloudWatch logs log group name.
+    Value: !Ref LogGroup
+  LogGroupArn:
+    Description: CloudWatch logs log group ARN.
+    Value: !GetAtt LogGroup.Arn

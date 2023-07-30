@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  AutoScalingTarget:
+    Type: String
+    Description: The Auto Scaling Target ID.
+  AutoScalingTargetValue:
+    Type: Number
+    Description: The target CPU utilisation.
+    Default: 50
+  ScaleInCooldown:
+    Type: Number
+    Description: The amount of time after a scale-in activity completes before another scale-in activity can start.
+    Default: 10
+  ScaleOutCooldown:
+    Type: Number
+    Description: The amount of time to wait for a previous scale-out activity to take effect.
+    Default: 10
+Resources:
+  AutoScalingPolicy:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref AutoScalingTarget
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        ScaleInCooldown: !Ref ScaleInCooldown
+        ScaleOutCooldown: !Ref ScaleOutCooldown
+        TargetValue: !Ref AutoScalingTargetValue

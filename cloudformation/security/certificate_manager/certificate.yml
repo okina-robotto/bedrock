@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  DomainName:
+    Type: String
+    Description: The FQDN for the certificate.
+    AllowedPattern: '^(\*\.)?(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$'
+  AlternativeNames:
+    Type: CommaDelimitedList
+    Description: Alternative FQDNs for the certificate.
+  HostedZoneId:
+    Type: AWS::Route53::HostedZone::Id
+    Description: The Route53 Hosted Zone Id of the domain.
+Resources:
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName: !Ref DomainName
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZoneId
+      SubjectAlternativeNames: !Ref AlternativeNames
+      ValidationMethod: DNS
+Outputs:
+  CertificateArn:
+    Description: The ARN of the certificate.
+    Value: !Ref Certificate

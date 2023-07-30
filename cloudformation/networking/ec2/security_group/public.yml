@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Name:
+    Type: String
+    Description: Name of the security group.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC Id.
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Ref Name
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+Outputs:
+  SecurityGroupId:
+    Description: Security Group Id.
+    Value: !GetAtt SecurityGroup.GroupId

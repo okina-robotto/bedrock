@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+Outputs:
+  InternetGatewayId:
+    Description: The Id of the Internet Gateway.
+    Value: !Ref InternetGateway

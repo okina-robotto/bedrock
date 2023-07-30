@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  TargetGroupArn:
+    Type: String
+    Description: ARN of the Target Group to assign to the Listener.
+  LoadBalancerArn:
+    Type: String
+    Description: ARN of the Load Balancer to assign the Listener to.
+Resources:
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroupArn
+      LoadBalancerArn: !Ref LoadBalancerArn
+      Port: 80
+      Protocol: HTTP
+Outputs:
+  TargetGroupArn:
+    Description: ARN of the Target Group assigned to the Listener.
+    Value: !Ref TargetGroupArn

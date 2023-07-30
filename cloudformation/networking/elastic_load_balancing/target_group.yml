@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC of the Target Group.
+  HealthCheckPort:
+    Type: Number
+    Description: Port to perform health checks against.
+  HealthCheckPath:
+    Type: String
+    Description: The path (URI) to request as part of the health check.
+    Default: '/'
+  Port:
+    Type: Number
+    Description: Port that the application will run on.
+  Protocol:
+    Type: String
+    Description: Protocol (HTTP or HTTPS).
+    AllowedValues:
+      - HTTP
+      - HTTPS
+    Default: HTTP
+Resources:
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: true
+      HealthCheckIntervalSeconds: 45
+      HealthCheckPath: !Ref HealthCheckPath
+      HealthCheckPort: !Ref HealthCheckPort
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 30
+      HealthyThresholdCount: 5
+      UnhealthyThresholdCount: 5
+      Matcher:
+        HttpCode: 200,301,302,401
+      Port: !Ref Port
+      Protocol: !Ref Protocol
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: 60 # default is 300
+      TargetType: ip
+      VpcId: !Ref VpcId
+Outputs:
+  TargetGroupArn:
+    Description: The ARN of the Target Group.
+    Value: !Ref TargetGroup

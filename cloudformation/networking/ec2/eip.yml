@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  Eip:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+Outputs:
+  AllocationId:
+    Description: The Allocation ID of the EIP.
+    Value: !GetAtt Eip.AllocationId

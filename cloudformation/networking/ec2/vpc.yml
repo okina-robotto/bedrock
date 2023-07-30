@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  CidrBlock:
+    Type: String
+    Description: The CIDR Block.
+    AllowedPattern: '^([0-9]{1,3}\.){3}[0-9]{1,3}(\/([0-9]|[1-2][0-9]|3[0-2]))?$'
+Resources:
+  Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref CidrBlock
+Outputs:
+  VpcId:
+    Description: The VPC Id.
+    Value: !Ref Vpc
+  CidrBlock:
+    Description: The VPC CIDR block.
+    Value: !GetAtt Vpc.CidrBlock

@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  RouteTableId:
+    Type: String
+    Description: The ID of the Route Table to add the route to.
+  GatewayId:
+    Type: String
+    Description: The Gateway ID.
+Resources:
+  Route:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: '0.0.0.0/0'
+      RouteTableId: !Ref RouteTableId
+      GatewayId: !Ref GatewayId

@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Name:
+    Type: String
+    Description: Name of the hosted zone.
+Resources:
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Properties:
+      Name: !Ref Name

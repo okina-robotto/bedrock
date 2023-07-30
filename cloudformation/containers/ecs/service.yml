@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ServiceName:
+    Type: String
+    Description: The name of the service.
+  Cluster:
+    Type: String
+    Description: The cluster on which to run the service.
+  DesiredCount:
+    Type: Number
+    Description: The desired number of instances to run.
+    Default: 1
+  TaskDefinition:
+    Type: String
+    Description: The task definition to run in the service.
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The VPC Subnet Ids.
+  SecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The Security Group Ids.
+  ContainerPort:
+    Type: Number
+    Description: The port the container will be listening on.
+  TargetGroupArn:
+    Type: String
+    Description: The ARN of the target group.
+Resources:
+  Service:
+    Type: AWS::ECS::Service
+    Properties: 
+      ServiceName: !Ref ServiceName
+      Cluster: !Ref Cluster
+      TaskDefinition: !Ref TaskDefinition
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 100
+        MaximumPercent: 200
+      DesiredCount: !Ref DesiredCount
+      HealthCheckGracePeriodSeconds: 30
+      LaunchType: FARGATE
+      NetworkConfiguration: 
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups: !Ref SecurityGroups
+          Subnets: !Ref SubnetIds
+      LoadBalancers:
+        - ContainerName: !Ref ServiceName
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref TargetGroupArn

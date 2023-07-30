@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  CidrIp:
+    Type: String
+    Description: The IPv4 range.
+    Default: 0.0.0.0/0
+  Name:
+    Type: String
+    Description: Name of the security group.
+  Port:
+    Type: Number
+    Description: The port number.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC Id.
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Ref Name
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - CidrIp: !Ref CidrIp
+          FromPort: !Ref Port
+          IpProtocol: tcp
+          ToPort: !Ref Port
+Outputs:
+  SecurityGroupId:
+    Description: Security Group Id.
+    Value: !GetAtt SecurityGroup.GroupId

@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  RouteTableId:
+    Type: String
+    Description: The ID of the Route Table to add the route to.
+  SubnetId:
+    Type: AWS::EC2::Subnet::Id
+    Description: The Subnet to associate with the route table.
+Resources:
+  SubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties: 
+      RouteTableId: !Ref RouteTableId
+      SubnetId: !Ref SubnetId

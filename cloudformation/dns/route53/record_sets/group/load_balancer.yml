@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  HostedZoneId:
+    Type: AWS::Route53::HostedZone::Id
+    Description: The Zone ID to add the record to.
+  Name:
+    Type: String
+    Description: FQDN of the record to add.
+  LoadBalancerCanonicalHostedZoneID:
+    Type: String
+    Description: The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+  LoadBalancerDNSName:
+    Type: String
+    Description: The DNS name for the load balancer.
+Resources:
+  RecordSetGroup:
+    Type: AWS::Route53::RecordSetGroup
+    Properties: 
+      HostedZoneId: !Ref HostedZoneId
+      RecordSets:
+      - Name: !Ref Name
+        Type: A
+        AliasTarget:
+          HostedZoneId: !Ref LoadBalancerCanonicalHostedZoneID
+          DNSName: !Ref LoadBalancerDNSName

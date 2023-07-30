@@ -1,0 +1,10 @@
+variable "name" {}
+variable "stack" {}
+variable "environment" {}
+variable "vpc_id" {}
+variable "port" {}
+variable "app_port" {}
+variable "cpu" {}
+variable "memory" {}
+variable "region" {}
+variable "role" {}

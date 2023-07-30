@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  Group:
+    Type: AWS::IAM::Group
+    Properties:
+      Policies:
+        - PolicyName: !Sub "${AWS::StackName}-deploy"
+          PolicyDocument:
+            Version: '2008-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetAuthorizationToken
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                  - ecr:InitiateLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:CompleteLayerUpload
+                  - ecs:RegisterTaskDefinition
+                  - ecs:UpdateService
+                  - ecs:DescribeServices
+                Resource: "*"
+Outputs:
+  GroupName:
+    Description: Group Name
+    Value: !Ref Group

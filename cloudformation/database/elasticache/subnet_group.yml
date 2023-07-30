@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The VPC Subnet Ids.
+Resources:
+  SubnetGroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: Elasticache Subnet Group.
+      SubnetIds: !Ref SubnetIds
+Outputs:
+  SubnetGroup:
+    Description: Subnet Group.
+    Value: !Ref SubnetGroup

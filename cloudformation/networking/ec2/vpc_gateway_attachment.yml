@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  InternetGatewayId:
+    Type: String
+    Description: The ID of the Internet Gateway to attach.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC to attach the Internet Gateway to.
+Resources:
+  VPCGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties: 
+      InternetGatewayId: !Ref InternetGatewayId
+      VpcId: !Ref VpcId
+Outputs:
+  InternetGatewayId:
+    Description: The ID of the Internet Gateway that was attached.
+    Value: !Ref InternetGatewayId

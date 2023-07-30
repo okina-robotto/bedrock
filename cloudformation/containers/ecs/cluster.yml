@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ClusterName:
+    Type: String
+    Description: The name of the cluster.
+Resources:
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Ref ClusterName
+Outputs:
+  ClusterId:
+    Description: The Cluster ID.
+    Value: !Ref Cluster

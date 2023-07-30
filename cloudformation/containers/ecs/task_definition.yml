@@ -1,0 +1,93 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ServiceName:
+    Type: String
+    Description: The name of the service.
+  Image:
+    Type: String
+    Description: The docker respository.
+  ContainerPort:
+    Type: Number
+    Description: The port the service will run on.
+    Default: 3000
+  Cpu:
+    Type: Number
+    Description: The vCPU to allocate the task.
+    AllowedValues:
+      - 256
+      - 512
+      - 1024
+      - 2048
+      - 4096
+    Default: 256
+  Memory:
+    Type: Number
+    Description: The amount of memory to allocate the task.
+    AllowedValues:
+      - 512
+      - 1024
+      - 2048
+      - 3072
+      - 4096
+      - 5120
+      - 6144
+      - 7168
+      - 8192
+      - 9216
+      - 10240
+      - 11264
+      - 12288
+      - 13312
+      - 14336
+      - 15360
+      - 16384
+      - 17408
+      - 18432
+      - 19456
+      - 20480
+      - 21504
+      - 22528
+      - 23552
+      - 24576
+      - 25600
+      - 26624
+      - 27648
+      - 28672
+      - 29696
+      - 30720
+    Default: 512
+  ExecutionRoleArn:
+    Type: String
+    Description: The ARN of the execution role.
+  TaskRoleArn:
+    Type: String
+    Description: The ARN of the execution role.
+Resources:
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: !Ref Cpu
+      Memory: !Ref Memory
+      ExecutionRoleArn: !Ref ExecutionRoleArn
+      TaskRoleArn: !Ref TaskRoleArn
+      ContainerDefinitions:
+        - Name: !Ref ServiceName
+          Image: !Sub "${Image}:latest"
+          Cpu: !Ref Cpu
+          Memory: !Ref Memory
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              "awslogs-group": !Sub "/ecs/${ServiceName}"
+              "awslogs-region": !Sub "${AWS::Region}"
+              "awslogs-stream-prefix": "ecs"
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+              HostPort: !Ref ContainerPort
+Outputs:
+  TaskDefinitionArn:
+    Description: The Task Definition ARN.
+    Value: !Ref TaskDefinition

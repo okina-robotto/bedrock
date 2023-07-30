@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  AutoScalingRoleArn:
+    Type: String
+    Description: The ARN of the auto-scaling role.
+  ClusterName:
+    Type: String
+    Description: The name of the cluster.
+  MinCapacity:
+    Type: Number
+    Description: The minimum value to scale in to.
+  MaxCapacity:
+    Type: Number
+    Description: The maximum value to scale out to.
+  ServiceName:
+    Type: String
+    Description: The name of the service.
+Resources:
+  AutoScalingTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    Properties:
+      MinCapacity: !Ref MinCapacity
+      MaxCapacity: !Ref MaxCapacity
+      ResourceId: !Sub "service/${ClusterName}/${ServiceName}"
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+      RoleARN: !Ref AutoScalingRoleArn
+Outputs:
+  AutoScalingTarget:
+    Description: The target name.
+    Value: !Ref AutoScalingTarget

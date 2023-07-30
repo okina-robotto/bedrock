@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Groups:
+    Description: 'The group(s) to add the user to.'
+    Type: CommaDelimitedList
+Resources:
+  User:
+    Type: AWS::IAM::User
+    Properties:
+      Groups: !Ref Groups
+Outputs:
+  UserName:
+    Description: Username
+    Value: !Ref User

@@ -1,0 +1,13 @@
+variable "name" {}
+variable "stack" {}
+variable "environment" {}
+variable "task_definition" {}
+variable "desired_count" {}
+variable "subnet_ids" {}
+variable "vpc_id" {}
+variable "role_policy_attachment_id" {}
+variable "alb_target_group_id" {}
+variable "port" {}
+variable "app_port" {}
+variable "alb_listener_id" {}
+variable "security_group_id" {}

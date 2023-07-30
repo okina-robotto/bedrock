@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC to assign the route table to.
+Resources:
+  Route:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VpcId
+Outputs:
+  RouteTableId:
+    Description: The Route Table ID.
+    Value: !Ref Route

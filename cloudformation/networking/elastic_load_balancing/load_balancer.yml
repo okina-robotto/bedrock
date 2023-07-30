@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Subnets:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: The IDs of the Subnets (one per AZ).
+  SecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+    Description: The IDs of the security groups to use.
+Resources:
+  LoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Type: application
+      Subnets: !Ref Subnets
+      SecurityGroups: !Ref SecurityGroups
+Outputs:
+  CanonicalHostedZoneID:
+    Description: The ID of the Amazon Route 53 hosted zone associated with the load balancer.
+    Value: !GetAtt LoadBalancer.CanonicalHostedZoneID
+  DNSName:
+    Description: The DNS name for the load balancer.
+    Value: !GetAtt LoadBalancer.DNSName
+  LoadBalancerArn:
+    Description: The ARN of the LoadBalancer.
+    Value: !Ref LoadBalancer
